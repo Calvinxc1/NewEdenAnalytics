@@ -1,0 +1,5 @@
+node_modules/
+.deploy/
+.ssh/
+settings.json
+run.bat
