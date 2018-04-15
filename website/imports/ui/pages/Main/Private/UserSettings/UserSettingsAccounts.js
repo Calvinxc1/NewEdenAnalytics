@@ -96,8 +96,8 @@ export default class UserSettingsAccounts extends React.Component {
 								}}
 							>{char.corp_name}</h6>
 							<Carousel.Caption>
-								<h4>{char.char_name}</h4>
-								<h6>ID: {char._id}</h6>
+								<h4 style={{color: '#ffffff'}}>{char.char_name}</h4>
+								<h6 style={{color: '#ffffff'}}>ID: {char._id}</h6>
 							</Carousel.Caption>
 						</Carousel.Item></Carousel>
 					</Col>

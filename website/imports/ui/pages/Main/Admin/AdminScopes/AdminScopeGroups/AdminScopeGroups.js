@@ -90,7 +90,7 @@ export default class AdminScopeGroups extends React.Component {
 					selectRow={this.state.tableParams.selectRow}
 					options={this.state.tableParams.options}
 					striped hover
-					deleteRow
+					insertRow deleteRow
 				>
 					<TableHeaderColumn
 						dataField='_id'
@@ -98,12 +98,15 @@ export default class AdminScopeGroups extends React.Component {
 					>Group ID</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='category'
+						dataSort
 					>Category</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='name'
+						dataSort
 					>Group Name</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='scopes'
+						dataSort
 					>Group Scopes</TableHeaderColumn>
 				</BootstrapTable>
 			</Grid>
