@@ -22,10 +22,8 @@ if (Meteor.isServer) {
 };
 
 Accounts.onCreateUser((options, user) => {
-	const publicScopeGroup = ScopeGroups.findOne({name: 'Public'});
 	user.profile = {
-		characters: [],
-		scopeGroups: [publicScopeGroup._id.valueOf()]
+		characters: []
 	};
 	return user;
 });
@@ -66,15 +64,6 @@ export const schemaUser = new SimpleSchema({
 		label: 'User EVE Accounts',
 		maxCount: 0
 	},
-	'profile.scopeGroups': {
-		type: Array,
-		label: 'Scope Access',
-		minCount: 1, maxCount: 1
-	},
-	'profile.scopeGroups.$': {
-		type: String,
-		label: 'Default Scope Group'
-	},
 	createdAt: {
 		type: Date,
 		label: 'Created At'
@@ -88,32 +77,4 @@ export const schemaUser = new SimpleSchema({
 Accounts.validateNewUser((user) => {
 	schemaUser.validate(user);
 	return true;
-});
-
-Meteor.methods({
-	'users.update.scopeGroups.admin'(_id, scopeGroups) {
-		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		new SimpleSchema({
-			_id: {
-				type: String,
-				label: "Update User ID"
-			},
-			scopeGroups: {
-				type: Array,
-				label: 'Scope Access'
-			},
-			'scopeGroups.$': {
-				type: String,
-				label: 'Default Scope Group',
-				optional: true
-			}
-		}).validate({_id, scopeGroups});
-
-		return Meteor.users.update(_id, {$set: {
-			'profile.scopeGroups': scopeGroups
-		}});
-	}
 });

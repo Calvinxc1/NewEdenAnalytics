@@ -60,7 +60,7 @@ export default class Signup extends React.Component {
 			username: this.state.username,
 			email: this.state.email,
 			password: this.state.password,
-		}
+		};
 
 		this.state.schema.validate({
 			...newUser,
@@ -70,6 +70,7 @@ export default class Signup extends React.Component {
 		if (this.state.schema.isValid()) {
 			Accounts.createUser(newUser, (err, res) => {
 				if (err) {
+					console.log(res);
 					this.setState({errors: [{
 						name: err.message,
 						type: 'creation'

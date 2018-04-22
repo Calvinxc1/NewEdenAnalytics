@@ -50,10 +50,17 @@ DROP TRIGGER IF EXISTS CorpBlueprints_History_Delete //
 CREATE TRIGGER CorpBlueprints_History_Delete
 AFTER DELETE ON CorpBlueprints FOR EACH ROW
 BEGIN
-	UPDATE CorpBlueprintsHistory
-	SET final_record = 1
-	WHERE record_time = OLD.record_time
-	  AND item_id = OLD.item_id
+	INSERT INTO CorpBlueprintsHistory (
+		record_time, item_id, corporation_id, type_id,
+		location_id, quantity, time_efficiency, material_efficiency,
+		runs, final_record
+	)
+	VALUES (
+		OLD.record_time, OLD.item_id, OLD.corporation_id, OLD.type_id,
+		OLD.location_id, OLD.quantity, OLD.time_efficiency, OLD.material_efficiency,
+		OLD.runs, 0
+	)
+	ON DUPLICATE KEY UPDATE final_record = 1
 	;
 END; //
 

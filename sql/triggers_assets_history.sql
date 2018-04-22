@@ -50,10 +50,17 @@ DROP TRIGGER IF EXISTS CorpAssets_History_Delete //
 CREATE TRIGGER CorpAssets_History_Delete
 AFTER DELETE ON CorpAssets FOR EACH ROW
 BEGIN
-	UPDATE CorpAssetsHistory
-	SET final_record = 1
-	WHERE record_time = OLD.record_time
-	  AND item_id = OLD.item_id
+	INSERT INTO CorpAssetsHistory (
+		record_time, item_id, corporation_id, location_id,
+		location_type, location_flag, type_id, quantity,
+		is_singleton, final_record
+	)
+	VALUES (
+		OLD.record_time, OLD.item_id, OLD.corporation_id, OLD.location_id,
+		OLD.location_type, OLD.location_flag, OLD.type_id, OLD.quantity,
+		OLD.is_singleton, 0
+	)
+	ON DUPLICATE KEY UPDATE final_record = 1
 	;
 END; //
 

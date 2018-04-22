@@ -27,7 +27,6 @@ import AdminCharacter from '../ui/pages/Main/Admin/AdminChars/AdminCharacter/Adm
 import AdminScopes from '../ui/pages/Main/Admin/AdminScopes/AdminScopes.js';
 import AdminScopeGroups from '../ui/pages/Main/Admin/AdminScopes/AdminScopeGroups/AdminScopeGroups.js';
 import AdminUsers from '../ui/pages/Main/Admin/AdminUsers/AdminUsers.js';
-import AdminUser from '../ui/pages/Main/Admin/AdminUsers/AdminUser/AdminUser.js';
 
 // Other Routes
 import NotFound from '../ui/pages/Main/NotFound/NotFound.js';
@@ -42,7 +41,6 @@ const routesMain = (
 
 		<Route path='/admin' component={AdminDashboard} onEnter={onEnterAdminPage} />
 		<Route path='/admin/users' component={AdminUsers} onEnter={onEnterAdminPage} />
-		<Route path='/admin/users/:id' component={AdminUser} onEnter={onEnterAdminPage} />
 		<Route path='/admin/chars' component={AdminChars} onEnter={onEnterAdminPage} />
 		<Route path='/admin/chars/:id' component={AdminCharacter} onEnter={onEnterAdminPage} />
 		<Route path='/admin/scopes' component={AdminScopes} onEnter={onEnterAdminPage} />
