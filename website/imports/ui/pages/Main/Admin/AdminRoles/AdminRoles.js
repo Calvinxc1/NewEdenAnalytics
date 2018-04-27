@@ -68,6 +68,7 @@ export default class AdminRoles extends React.Component {
 			throw new Meteor.Error('not-authorized');
 		}
 
+		delete row._id;
 		schemaRoles.insert.validate(row);
 
 		Meteor.call('roles.insert.admin', row, (err, res) => {
@@ -115,6 +116,11 @@ export default class AdminRoles extends React.Component {
 					striped hover
 					insertRow	deleteRow
 				>
+					<TableHeaderColumn
+						dataField='_id'
+						hidden hiddenOnInsert
+						autoValue
+					>Name</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='name'
 						dataSort

@@ -263,7 +263,7 @@ export default class AdminScopeGroups extends React.Component {
 					<TableHeaderColumn
 						dataField='_id'
 						hidden hiddenOnInsert
-						dataSort autoValue
+						autoValue
 					>Record ID</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='cat'
