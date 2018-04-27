@@ -12,7 +12,6 @@ import {LinkContainer} from 'react-router-bootstrap';
 
 // Custom Imports
 import FA from '../../../../modules/FontAwesome/FontAwesome.js';
-import UserSettingsAccounts from './UserSettingsAccounts.js';
 
 export default class UserSettings extends React.Component {
 	constructor(props) {
@@ -122,8 +121,6 @@ export default class UserSettings extends React.Component {
 						</LinkContainer>
 					</ButtonToolbar>
 				</Form>
-				<hr />
-				<UserSettingsAccounts />
 			</Well></Grid>
 		);
 	}

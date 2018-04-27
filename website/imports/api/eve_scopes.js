@@ -31,9 +31,19 @@ export const schemaEveScopes = new SimpleSchema({
 		label: 'Scope ID',
 		min: 1
 	},
-	name: {
+	cat: {
 		type: String,
-		label: 'Scope Name',
+		label: 'Scope Category',
+		min: 1
+	},
+	action: {
+		type: String,
+		label: 'Scope Action',
+		min: 1
+	},
+	area: {
+		type: String,
+		label: 'Scope Area',
 		min: 1
 	},
 	desc: {
@@ -60,5 +70,15 @@ Meteor.methods({
 		}
 
 		return EveScopes.remove({_id: {$in: idList}});
+	},
+
+	'eveScopes.update.admin'(scopeItem) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaEveScopes.validate(scopeItem);
+
+		return EveScopes.update({_id: scopeItem._id}, scopeItem, {upsert: true});
 	}
 });

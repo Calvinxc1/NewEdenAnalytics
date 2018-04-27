@@ -25,12 +25,20 @@ if (Meteor.isServer) {
 	});
 };
 
-export const schemaScopeGroups = new SimpleSchema({
+const schemaObject = {
 	name: {
 		type: String,
 		label: 'Scope Group Name',
 		min: 1
 	},
+	cat: {
+		type: String,
+		label: 'Scope Group Category',
+		min: 1
+	}
+};
+
+const schemaScopes = {
 	scopes: {
 		type: Array,
 		label: 'Array of Scopes in Group'
@@ -40,6 +48,23 @@ export const schemaScopeGroups = new SimpleSchema({
 		label: 'Scope',
 		min: 1
 	}
+};
+
+export const schemaScopeGroups = {}
+schemaScopeGroups.insert = new SimpleSchema({
+	...schemaObject,
+	...schemaScopes
+});
+schemaScopeGroups.update = new SimpleSchema({
+	...schemaObject,
+	...schemaScopes,
+	_id: {
+		type: String,
+		regEx: SimpleSchema.RegEx.Id
+	}
+});
+schemaScopeGroups.setScopes = new SimpleSchema({
+	...schemaScopes
 });
 
 Meteor.methods({
@@ -48,7 +73,7 @@ Meteor.methods({
 			throw new Meteor.Error('not-authorized');
 		}
 
-		schemaScopeGroups.validate(scopeGroupItem);
+		schemaScopeGroups.insert.validate(scopeGroupItem);
 
 		return ScopeGroups.insert(scopeGroupItem);
 	},
@@ -59,5 +84,25 @@ Meteor.methods({
 		}
 
 		return ScopeGroups.remove({_id: {$in: idList}});
+	},
+
+	'scopeGroups.update.admin'(scopeGroupItem) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaScopeGroups.update.validate(scopeGroupItem);
+
+		return ScopeGroups.update({_id: scopeGroupItem._id}, scopeGroupItem, {upsert: true});
+	},
+
+	'scopeGroups.setScopes.admin'(scopeGroupId, scopeList) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaScopeGroups.setScopes.validate({scopes: scopeList});
+
+		return ScopeGroups.update({_id: scopeGroupId}, {'$set': {scopes: scopeList}}, {upsert: true});
 	}
 });

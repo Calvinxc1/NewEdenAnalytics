@@ -15,7 +15,8 @@ const routesNavbar = (
 		<Route path='/' component={PublicNav} />
 		
 		<Route path='/dashboard' component={PrivateNav} />
-		<Route path='/settings' component={PrivateNav} />
+		<Route path='/user' component={PrivateNav} />
+		<Route path='/user/*' component={PrivateNav} />
 		<Route path='/admin' component={PrivateNav} />
 		<Route path='/admin/*' component={PrivateNav} />
 

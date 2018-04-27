@@ -6,7 +6,7 @@ import {Accounts} from 'meteor/accounts-base';
 import SimpleSchema from 'simpl-schema';
 
 // Custom Imports
-import {ScopeGroups} from './scope_groups.js';
+import {schemaRoles} from './roles.js';
 
 if (Meteor.isServer) {
 	Meteor.publish('admin_users', () => {
@@ -21,14 +21,7 @@ if (Meteor.isServer) {
 	});
 };
 
-Accounts.onCreateUser((options, user) => {
-	user.profile = {
-		characters: []
-	};
-	return user;
-});
-
-export const schemaUser = new SimpleSchema({
+const schemaObject = {
 	username: {
 		type: String,
 		label: 'New User Username'
@@ -72,9 +65,55 @@ export const schemaUser = new SimpleSchema({
 		type: String,
 		label: 'User ID'
 	}
+}
+
+export const schemaUsers = {}
+schemaUsers.insert = new SimpleSchema(schemaObject);
+schemaUsers.update = new SimpleSchema({
+	...schemaObject,
+	_id: {
+		type: String,
+		regEx: SimpleSchema.RegEx.Id
+	}
+});
+schemaUsers.setRoles = new SimpleSchema({
+	roles: {
+		type: Object,
+		label: 'Roles Groups'
+	},
+	'roles.__global_roles__': {
+		type: Array,
+		label: 'Global Roles',
+		maxCount: 0
+	}
 });
 
-Accounts.validateNewUser((user) => {
-	schemaUser.validate(user);
-	return true;
+if(Meteor.isServer) {
+	Accounts.validateNewUser((user) => {
+		schemaUsers.insert.validate(user);
+		return true;
+	});
+
+	Accounts.onCreateUser((options, user) => {
+		user.profile = {
+			characters: []
+		};
+		return user;
+	});
+}
+
+Meteor.methods({
+	'accounts.setRoles.admin'(userId, roleList) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaUsers.setRoles.validate({
+			roles: {
+				__global_roles__:	roleList
+			}
+		});
+
+		return Roles.setUserRoles(userId, roleList, Roles.GLOBAL_GROUP);
+	}
 });

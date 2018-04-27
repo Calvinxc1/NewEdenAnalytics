@@ -51,17 +51,20 @@ export default class PrivateNavAdmin extends React.Component {
 						<MenuItem eventKey={2.1}>Dashboard</MenuItem>
 					</LinkContainer>
 					<MenuItem divider />
+					<LinkContainer to='/admin/roles'>
+						<MenuItem eventKey={2.2}>Roles</MenuItem>
+					</LinkContainer>
 					<LinkContainer to='/admin/users'>
-						<MenuItem eventKey={2.2}>Users</MenuItem>
+						<MenuItem eventKey={2.3}>Users</MenuItem>
 					</LinkContainer>
 					<LinkContainer to='/admin/chars'>
-						<MenuItem eventKey={2.3}>Characters</MenuItem>
+						<MenuItem eventKey={2.4}>Characters</MenuItem>
 					</LinkContainer>
 					<LinkContainer to='/admin/scopes'>
-						<MenuItem eventKey={2.4}>Scopes</MenuItem>
+						<MenuItem eventKey={2.5}>Scopes</MenuItem>
 					</LinkContainer>
 					<LinkContainer to='/admin/scopes/groups'>
-						<MenuItem eventKey={2.5}>Scope Groups</MenuItem>
+						<MenuItem eventKey={2.6}>Scope Groups</MenuItem>
 					</LinkContainer>
 				</NavDropdown>
 			);

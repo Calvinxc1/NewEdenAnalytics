@@ -45,8 +45,11 @@ export default class PrivateNavUser extends React.Component {
 				id='nav-user-dropdown'
 				ref='navDrop'
 			>
-				<LinkContainer to='/settings'>
+				<LinkContainer to='/user/settings'>
 					<MenuItem eventKey={1.1}>Settings</MenuItem>
+				</LinkContainer>
+				<LinkContainer to='/user/chars'>
+					<MenuItem eventKey={1.2}>Characters</MenuItem>
 				</LinkContainer>
 				<MenuItem divider />
 				<MenuItem

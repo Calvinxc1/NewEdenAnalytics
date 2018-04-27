@@ -30,7 +30,7 @@ export default class AdminChars extends React.Component {
 	}
 
 	componentDidMount() {
-		this.trackers.admin = Tracker.autorun(() => {
+		this.trackers.chars = Tracker.autorun(() => {
 			if (this.refs.rootItem) {
 				if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
 					Meteor.subscribe('admin_eveChars');

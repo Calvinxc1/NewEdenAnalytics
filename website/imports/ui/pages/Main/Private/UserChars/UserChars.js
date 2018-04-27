@@ -5,7 +5,8 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {
 	Row, Col, Thumbnail, Button,
-	Carousel, Image
+	Carousel, Image, Grid, Well,
+	Modal, Form, FormGroup, Checkbox
 } from 'react-bootstrap';
 
 // Custom Imports
@@ -14,12 +15,17 @@ import SortBy from '../../../../modules/SortBy/SortBy.js';
 import FA from '../../../../modules/FontAwesome/FontAwesome.js';
 import {EveChars} from '../../../../../api/eve_chars.js';
 import {EveCorps} from '../../../../../api/eve_corps.js';
+import {ScopeGroups} from '../../../../../api/scope_groups.js';
 
-export default class UserSettingsAccounts extends React.Component {
+export default class UsreChars extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			characters: []
+			characters: [],
+			scopes: [],
+			scopeGroups: [],
+			checkedGroups: [],
+			modalSso: false
 		};
 		this.trackers = {};
 	}
@@ -55,6 +61,18 @@ export default class UserSettingsAccounts extends React.Component {
 				}));
 
 				this.setState({characters});
+			}
+		});
+
+		this.trackers.scopeGroups = Tracker.autorun(() => {
+			if (this.refs.rootItem) {
+				if (Meteor.userId()) {
+					Meteor.subscribe('scopeGroups');
+
+					const scopeGroups = ScopeGroups.find({}).fetch();
+					
+					this.setState({scopeGroups});
+				}
 			}
 		});
 	}
@@ -106,14 +124,100 @@ export default class UserSettingsAccounts extends React.Component {
 		}
 	}
 
+	modalSsoShow() {
+		this.setState({modalSso: true});
+	}
+
+	modalSsoHide() {
+		this.setState({modalSso: false, checkedGroups: []});	
+	}
+
+	runSso() {
+		var scopeList = [];
+		this.state.scopeGroups.forEach((scopeGroup) => {
+			if(this.state.checkedGroups.includes(scopeGroup._id)) {
+				scopeGroup.scopes.forEach((scope) => {
+					if(scopeList.indexOf(scope) == -1) {
+						scopeList.push(scope);
+					}
+				});
+			}
+		});
+
+		this.modalSsoHide.bind(this)();
+
+		EveLogin(scopeList);
+	}
+
+	renderSsoGroups() {
+		return this.state.scopeGroups.map((scopeGroup) => {
+			return (
+				<FormGroup key={scopeGroup._id}>
+					<Checkbox
+						id={scopeGroup._id}
+						checked={this.state.checkedGroups.includes(scopeGroup._id)}
+						onChange={this.setCheckedGroups.bind(this)}
+					>{scopeGroup.name}</Checkbox>
+				</FormGroup>
+			)
+		});
+	}
+
+	setCheckedGroups(e) {
+		checkedGroups = this.state.checkedGroups;
+
+		if(e.target.checked) {
+			checkedGroups.push(e.target.id);
+		} else {
+			const index = checkedGroups.indexOf(e.target.id);
+
+			if(index !== -1) {
+				checkedGroups.splice(index, 1);
+			}
+		}
+
+		this.setState({checkedGroups});
+	}
+
+	renderSsoModal() {
+		return (
+			<Modal
+				show={this.state.modalSso}
+				onHide={this.modalSsoHide.bind(this)}
+			>
+				<Modal.Header>
+				  <Modal.Title>Select Scope Groups for SSO Auth</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<Form>{this.renderSsoGroups.bind(this)()}</Form>
+				</Modal.Body>
+
+				<Modal.Footer>
+					<Button
+						onClick={this.modalSsoHide.bind(this)}
+						className="pull-left"
+					>Cancel</Button>
+					<Image
+						src='https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-black-large.png'
+						onClick={this.runSso.bind(this)}
+					/>
+				</Modal.Footer>
+			</Modal>
+		);
+	}
+
 	render() {
 		return (
-			<div ref='formDiv'>
-				<Button onClick={EveLogin}><FA fa-plus /> Add Character</Button>
-				<Row>
-					{this.renderChars.bind(this)()}
-				</Row>
-			</div>
+			<Grid ref='rootItem'>
+				{this.renderSsoModal.bind(this)()}
+				<Button onClick={this.modalSsoShow.bind(this)}><FA fa-plus /> Add/Update Character</Button>
+				<Well>
+					<Row>
+						{this.renderChars.bind(this)()}
+					</Row>
+				</Well>
+			</Grid>
 		)
 	}
 };

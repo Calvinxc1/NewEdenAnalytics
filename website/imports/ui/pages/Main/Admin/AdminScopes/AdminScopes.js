@@ -1,5 +1,6 @@
 // Meteor Imports
 import {Meteor} from 'meteor/meteor';
+import {Roles} from 'meteor/alanning:roles';
 
 // NPM Imports
 import React from 'react';
@@ -13,6 +14,7 @@ import {
 // Custom Imports
 import {EveScopes} from '../../../../../api/eve_scopes.js';
 import {schemaEveScopes} from '../../../../../api/eve_scopes.js';
+import FA from '../../../../modules/FontAwesome/FontAwesome.js';
 
 export default class AdminScopes extends React.Component {
 	constructor(props) {
@@ -29,7 +31,19 @@ export default class AdminScopes extends React.Component {
 					defaultSortOrder: 'asc'
 				},
 				selectRow: {
-					mode: 'checkbox'
+					mode: 'checkbox',
+					clickToSelect: false,
+					clickToExpand: true
+				},
+				cellEdit: {
+					mode: 'dbclick',
+					blurToSave: true,
+					afterSaveCell: this.updateRow
+				},
+				expandColumnOptions: {
+					expandColumnVisible: true,
+					expandColumnComponent: this.expandColumnComponent,
+					columnWidth: 50
 				}
 			}
 		};
@@ -84,6 +98,44 @@ export default class AdminScopes extends React.Component {
 		});	
 	}
 
+	updateRow(row) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaEveScopes.validate(row);
+		
+		Meteor.call('eveScopes.update.admin', row, (err, res) => {
+			if (err) {
+				console.log(err);
+			}
+		});
+	}
+
+	expandRowComponent(row) {
+		return (
+			<div>
+				{row.desc}
+			</div>
+		);
+	}
+
+	expandColumnComponent({isExpandableRow, isExpanded}) {
+		if (isExpandableRow) {
+			if (isExpanded) {
+				return (
+					<FA fa-caret-down />
+				);
+			} else {
+				return (
+					<FA fa-caret-right />
+				);
+			}
+		} else {
+			return null;
+		}
+	}
+
 	render() {
 		return (
 			<Grid ref='rootItem'>
@@ -91,20 +143,34 @@ export default class AdminScopes extends React.Component {
 					data={this.state.scopes}
 					selectRow={this.state.tableParams.selectRow}
 					options={this.state.tableParams.options}
+					cellEdit={this.state.tableParams.cellEdit}
+					expandableRow={() => {return true}}
+					expandComponent={this.expandRowComponent.bind(this)}
+					expandColumnOptions={this.state.tableParams.expandColumnOptions}
+					keyField='_id'
 					striped hover
 					insertRow	deleteRow
 				>
 					<TableHeaderColumn
 						dataField='_id'
-						dataSort isKey
+						width='300'
+						dataSort
 					>Scope ID</TableHeaderColumn>
 					<TableHeaderColumn
-						dataField='name'
+						dataField='cat'
 						dataSort
-					>Scope Name</TableHeaderColumn>
+					>Category</TableHeaderColumn>
+					<TableHeaderColumn
+						dataField='action'
+						dataSort
+					>Action</TableHeaderColumn>
+					<TableHeaderColumn
+						dataField='area'
+						dataSort
+					>Area</TableHeaderColumn>
 					<TableHeaderColumn
 						dataField='desc'
-						dataSort
+						hidden
 					>Description</TableHeaderColumn>
 				</BootstrapTable>
 			</Grid>

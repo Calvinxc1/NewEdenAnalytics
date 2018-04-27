@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 
 // Custom Imports - API's
 import '../imports/api/users.js';
+import '../imports/api/roles.js';
 import '../imports/api/eve_chars.js';
 import '../imports/api/eve_corps.js';
 import '../imports/api/eve_scopes.js';
