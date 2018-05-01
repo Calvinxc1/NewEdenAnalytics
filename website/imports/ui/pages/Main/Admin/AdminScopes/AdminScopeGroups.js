@@ -25,7 +25,7 @@ export default class AdminScopeGroups extends React.Component {
 			tableParams: {
 				options: {
 					afterInsertRow: this.insertRow,
-					afterDeleteRow: this.deleteRow,
+					afterDeleteRow: this.deleteRows,
 					insertText: 'Add Scope Group',
 					deleteText: 'Delete Selected Scope Groups'
 				},
@@ -102,7 +102,7 @@ export default class AdminScopeGroups extends React.Component {
 		});
 	}
 
-	deleteRow(rowIds) {
+	deleteRows(rowIds) {
 		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
 			throw new Meteor.Error('not-authorized');
 		}
@@ -155,11 +155,11 @@ export default class AdminScopeGroups extends React.Component {
 		if (isExpandableRow) {
 			if (isExpanded) {
 				return (
-					<FA fa-caret-down />
+					<FA fa fa-caret-down />
 				);
 			} else {
 				return (
-					<FA fa-caret-right />
+					<FA fa fa-caret-right />
 				);
 			}
 		} else {

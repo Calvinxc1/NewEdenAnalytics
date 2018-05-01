@@ -56,9 +56,7 @@ Meteor.methods({
 			throw new Meteor.Error('not-authorized');
 		}
 
-		roleList.forEach((roleName) => {
-			Roles.deleteRole(roleName);
-		});
+		return Meteor.roles.remove({_id: {'$in': roleList}});
 	},
 
 	'roles.update.admin'(roleItem) {

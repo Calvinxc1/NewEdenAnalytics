@@ -17,7 +17,7 @@ import {EveChars} from '../../../../../api/eve_chars.js';
 import {EveCorps} from '../../../../../api/eve_corps.js';
 import {ScopeGroups} from '../../../../../api/scope_groups.js';
 
-export default class UsreChars extends React.Component {
+export default class UserChars extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

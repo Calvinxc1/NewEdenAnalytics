@@ -53,7 +53,7 @@ export default class PrivateNavUser extends React.Component {
 				</LinkContainer>
 				<MenuItem divider />
 				<MenuItem
-					eventKey={1.2}
+					eventKey={1.3}
 					onClick={() => Meteor.logout()}
 				>Logout</MenuItem>
 			</NavDropdown>

@@ -28,3 +28,4 @@ http@1.2.12
 oauth@1.1.13
 session@1.1.7
 momentjs:moment
+numtel:mysql

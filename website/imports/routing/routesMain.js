@@ -21,6 +21,10 @@ import Dashboard from '../ui/pages/Main/Private/Dashboard/Dashboard.js';
 import UserSettings from '../ui/pages/Main/Private/UserSettings/UserSettings.js';
 import UserChars from '../ui/pages/Main/Private/UserChars/UserChars.js';
 
+// Corp Routes
+import OreBuyback from '../ui/pages/Main/Corp/OreBuyback/OreBuyback.js';
+import OreBuybackConfig from '../ui/pages/Main/Corp/OreBuyback/OreBuybackConfig.js';
+
 // Admin Routes
 import AdminDashboard from '../ui/pages/Main/Admin/AdminDashboard/AdminDashboard.js';
 import AdminChars from '../ui/pages/Main/Admin/AdminChars/AdminChars.js';
@@ -41,6 +45,9 @@ const routesMain = (
 		<Route path='/dashboard' component={Dashboard} onEnter={onEnterPrivatePage} />
 		<Route path='/user/settings' component={UserSettings} onEnter={onEnterPrivatePage} />
 		<Route path='/user/chars' component={UserChars} onEnter={onEnterPrivatePage} />
+		
+		<Route path='/corp/ore_buyback' component={OreBuyback} onEnter={onEnterPrivatePage} />
+		<Route path='/corp/ore_buyback/config' component={OreBuybackConfig} onEnter={onEnterPrivatePage} />
 
 		<Route path='/admin' component={AdminDashboard} onEnter={onEnterAdminPage} />
 		<Route path='/admin/users' component={AdminUsers} onEnter={onEnterAdminPage} />

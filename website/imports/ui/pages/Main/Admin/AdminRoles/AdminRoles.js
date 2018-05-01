@@ -22,7 +22,7 @@ export default class AdminRoles extends React.Component {
 			tableParams: {
 				options: {
 					afterInsertRow: this.insertRow,
-					afterDeleteRow: this.deleteRow,
+					afterDeleteRow: this.deleteRows,
 					insertText: 'Add Role',
 					deleteText: 'Delete Selected Role(s)',
 					defaultSortName: 'name',
@@ -78,7 +78,7 @@ export default class AdminRoles extends React.Component {
 		});
 	}
 
-	deleteRow(rowIds) {
+	deleteRows(rowIds) {
 		if (!Roles.userIsInRole(Meteor.userId(), 'admin')) {
 			throw new Meteor.Error('not-authorized');
 		}

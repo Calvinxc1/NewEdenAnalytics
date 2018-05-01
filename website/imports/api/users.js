@@ -83,8 +83,11 @@ schemaUsers.setRoles = new SimpleSchema({
 	},
 	'roles.__global_roles__': {
 		type: Array,
-		label: 'Global Roles',
-		maxCount: 0
+		label: 'Global Roles'
+	},
+	'roles.__global_roles__.$': {
+		type: String,
+		label: 'Roles'
 	}
 });
 

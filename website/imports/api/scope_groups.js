@@ -50,7 +50,7 @@ const schemaScopes = {
 	}
 };
 
-export const schemaScopeGroups = {}
+export const schemaScopeGroups = {};
 schemaScopeGroups.insert = new SimpleSchema({
 	...schemaObject,
 	...schemaScopes

@@ -1,6 +1,7 @@
 // Meteor Imports
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
+import {Roles} from 'meteor/alanning:roles';
 
 // NPM Imports
 import SimpleSchema from 'simpl-schema';

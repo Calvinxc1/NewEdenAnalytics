@@ -1,5 +1,6 @@
 node_modules/
 .deploy/
 .ssh/
+webfonts/
 settings.json
 run.bat
