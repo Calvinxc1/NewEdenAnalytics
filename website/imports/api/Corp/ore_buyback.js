@@ -31,7 +31,12 @@ const schemaObject = {
 	start_date: {
 		type: Date,
 		label: 'Start Date',
-		min: moment().utcOffset(0).hour(0).minute(0).second(0).millisecond(0).add(1, 'd')
+		min: moment.utc().set({
+			'hour': 23,
+			'minute': 59,
+			'second': 59,
+			'milisecond': 999
+		}).toDate()
 	},
 	market_region_id: {
 		type: SimpleSchema.Integer,
@@ -40,16 +45,9 @@ const schemaObject = {
 	market_weight: {
 		type: Number,
 		label: 'Market Weight'
-	},
-	mineral_weights: {
-		type: Object,
-		label: 'Mineral Weights'
-	},
-	'mineral_weights.$': {
-		type: Number,
-		label: 'Mineral Weight',
-		optional: true
-	},
+	}
+};
+const schemaOre = {
 	ore_types: {
 		type: Array,
 		label: 'Ore Types'
@@ -60,10 +58,41 @@ const schemaObject = {
 		optional: true
 	}
 };
+const schemaMineralWeights = {
+	mineral_weights: {
+		type: Object,
+		label: 'Mineral Weights',
+		optional: true,
+		blackbox: true
+	}
+}
 
-export const schemaOreBuybackSettings = {};
-schemaOreBuybackSettings.insert = new SimpleSchema({
-	...schemaObject
+export const schemaOreBuybackSettings = {
+	root: {},
+	oreTypes: {},
+	mineralWeights: {}
+};
+
+schemaOreBuybackSettings.root.insert = new SimpleSchema({
+	...schemaObject,
+	...schemaOre,
+	...schemaMineralWeights
+});
+schemaOreBuybackSettings.root.delete = new SimpleSchema({
+	...schemaObject,
+	...schemaOre,
+	...schemaMineralWeights,
+	_id: {
+		type: String,
+		label: "Document ID",
+		optional: true
+	}
+});
+schemaOreBuybackSettings.oreTypes.set = new SimpleSchema({
+	...schemaOre
+});
+schemaOreBuybackSettings.mineralWeights.set = new SimpleSchema({
+	...schemaMineralWeights
 });
 
 Meteor.methods({
@@ -72,7 +101,7 @@ Meteor.methods({
 			throw new Meteor.Error('not-authorized');
 		}
 
-		schemaOreBuybackSettings.insert.validate(newSetting);
+		schemaOreBuybackSettings.root.insert.validate(newSetting);
 
 		return OreBuybackSettings.insert(newSetting);
 	},
@@ -84,4 +113,30 @@ Meteor.methods({
 
 		return OreBuybackSettings.remove({_id: {$in: idList}});
 	},
+
+	'oreBuybackSettings.oreTypes.set.director'(_id, ore_types) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'director')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaOreBuybackSettings.oreTypes.set.validate({ore_types});
+
+		return OreBuybackSettings.update(
+			{_id},
+			{$set: {ore_types}}
+		);
+	},
+
+	'oreBuybackSettings.mineralWeights.set.director'(_id, mineral_weights) {
+		if (!Roles.userIsInRole(Meteor.userId(), 'director')) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		schemaOreBuybackSettings.mineralWeights.set.validate({mineral_weights});
+
+		return OreBuybackSettings.update(
+			{_id},
+			{$set: {mineral_weights}}
+		);
+	}
 });

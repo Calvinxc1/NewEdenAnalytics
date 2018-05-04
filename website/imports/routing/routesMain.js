@@ -3,7 +3,9 @@ import {Meteor} from 'meteor/meteor';
 
 // NPM Imports
 import React from 'react';
-import {Router, Route, browserHistory} from 'react-router';
+import {
+	Router, Route, browserHistory
+} from 'react-router';
 
 // Custom Imports
 import {
@@ -23,7 +25,7 @@ import UserChars from '../ui/pages/Main/Private/UserChars/UserChars.js';
 
 // Corp Routes
 import OreBuyback from '../ui/pages/Main/Corp/OreBuyback/OreBuyback.js';
-import OreBuybackConfig from '../ui/pages/Main/Corp/OreBuyback/OreBuybackConfig.js';
+import OreBuybackConfig from '../ui/pages/Main/Corp/OreBuyback/Config/OreBuybackConfig.js';
 
 // Admin Routes
 import AdminDashboard from '../ui/pages/Main/Admin/AdminDashboard/AdminDashboard.js';

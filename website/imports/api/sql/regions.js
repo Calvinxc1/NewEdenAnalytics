@@ -8,8 +8,12 @@ if (Meteor.isServer) {
 
 	Meteor.publish('sql_regions', () => {
 		if (Meteor.userId()) {
-			return SqlConn.select(
-				'SELECT Regions.region_id, Regions.region_name FROM Regions;',
+			return SqlConn.select(`
+				SELECT Regions.region_id,
+					Regions.region_name
+				FROM Regions
+				ORDER BY Regions.region_name ASC
+				;`,
 				[{table: 'Regions'}]
 			);
 		} else {
@@ -18,4 +22,6 @@ if (Meteor.isServer) {
 	});
 }
 
-export const Regions = new MysqlSubscription('sql_regions');
+export const Regions = {};
+
+Regions.all = new MysqlSubscription('sql_regions');

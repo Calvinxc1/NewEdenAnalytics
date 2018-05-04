@@ -45,7 +45,7 @@ export default class PrivateNavCorp extends React.Component {
 			return (
 				<LinkContainer to='/corp/ore_buyback/config'>
 					<MenuItem eventKey={2.1}>
-						<FA fa fa-level-up fa-rotate-90 /> Config
+						<FA fal fa-level-up fa-rotate-90 /> &thinsp; Config
 					</MenuItem>
 				</LinkContainer>
 			)

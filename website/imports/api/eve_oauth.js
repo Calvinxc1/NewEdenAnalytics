@@ -1,12 +1,10 @@
 // Meteor Imports
 import {Meteor} from 'meteor/meteor';
+import {moment} from 'meteor/momentjs:moment';
 import {Accounts} from 'meteor/accounts-base';
 import {OAuth} from 'meteor/oauth';
 import {ServiceConfiguration} from 'meteor/service-configuration';
 import {HTTP} from 'meteor/http';
-
-// NPM Imports
-import Moment from 'moment';
 
 // Custom Imports
 import {EveTokens} from './eve_tokens.js';
@@ -119,7 +117,7 @@ const uploadChar = (char, charInfo, authVerif) => {
     {$set: {
       char_name: charInfo.name,
       corp_id: charInfo.corporation_id,
-      birthday: Moment(charInfo.birthday).toDate(),
+      birthday: moment(charInfo.birthday).toDate(),
       gender: charInfo.gender,
       race_id: charInfo.race_id,
       bloodline_id: charInfo.bloodline_id,
@@ -128,7 +126,7 @@ const uploadChar = (char, charInfo, authVerif) => {
       char_hash: char.CharacterOwnerHash,
       'tokens.access_token': authVerif.access_token,
       'tokens.token_type': authVerif.token_type,
-      'tokens.expires_on': Moment(char.ExpiresOn).toDate(),
+      'tokens.expires_on': moment(char.ExpiresOn).toDate(),
       'tokens.refresh_token': authVerif.refresh_token,
       'tokens.scopes': char.Scopes.split(' '),
       'tokens.last_set': new Date()

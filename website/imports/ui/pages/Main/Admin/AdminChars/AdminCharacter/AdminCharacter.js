@@ -1,5 +1,6 @@
 // Meteor Imports
 import {Session} from 'meteor/session';
+import {numeral} from 'meteor/numeral:numeral';
 
 // NPM Imports
 import React from 'react';
@@ -7,7 +8,6 @@ import {
 	Grid, Image, Carousel, Jumbotron,
 	Form, FormGroup, Checkbox
 } from 'react-bootstrap';
-import numeral from 'numeral';
 
 // Custom Imports
 import {EveChars} from '../../../../../../api/eve_chars.js';

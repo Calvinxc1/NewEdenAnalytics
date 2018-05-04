@@ -135,7 +135,7 @@ export default class AdminScopeGroups extends React.Component {
 					bsSize='xsmall'
 					onClick={this.modalScopesShow.bind(this, row)}
 					block
-				><FA fa-edit /> Edit Scopes</Button>
+				><FA fal fa-edit /> Edit Scopes</Button>
 				<ListGroup>
 					{this.expandedScopes(row.scopes)}
 				</ListGroup>
@@ -245,7 +245,7 @@ export default class AdminScopeGroups extends React.Component {
 
 					<Modal.Footer>
 						<Button onClick={this.modalScopesHide.bind(this)}>Close</Button>
-						<Button bsStyle="primary" onClick={this.saveScopes.bind(this)}>Save changes</Button>
+						<Button bsStyle="primary" onClick={this.saveScopes.bind(this)}>Save Changes</Button>
 					</Modal.Footer>
 				</Modal>
 				<BootstrapTable
