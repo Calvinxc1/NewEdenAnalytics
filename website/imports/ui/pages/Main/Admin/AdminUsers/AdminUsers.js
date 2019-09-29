@@ -175,11 +175,11 @@ export default class AdminUsers extends React.Component {
 		if (isExpandableRow) {
 			if (isExpanded) {
 				return (
-					<FA fa-caret-down />
+					<FA fas fa-caret-down />
 				)
 			} else {
 				return (
-					<FA fa-caret-right />
+					<FA fas fa-caret-right />
 				)
 			}
 		} else {

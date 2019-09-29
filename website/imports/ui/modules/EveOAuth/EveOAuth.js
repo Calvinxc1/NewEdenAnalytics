@@ -37,6 +37,6 @@ export default (scopeList) => {
 				console.log(err);
 			}
 		},
-		{width: 450, height: 600}
+		{width: 500, height: 650}
 	);
 };

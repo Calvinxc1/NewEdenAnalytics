@@ -7,23 +7,23 @@ if (Meteor.isServer) {
 	import {SqlConn} from './sql_conn.js';
 
 	Meteor.publish('types.oreBuybackOreTypes', () => {
-		if (Roles.userIsInRole(Meteor.userId(), 'director')) {
+		if (Roles.userIsInRole(Meteor.userId(), ['director', 'member'])) {
 			return SqlConn.select(`
 				SELECT Types.type_id AS id,
 					Types.type_name AS name,
 					Types.market_group_id
 				FROM Types
-				JOIN MarketGroups
-					ON Types.market_group_id = MarketGroups.market_group_id
-				WHERE MarketGroups.parent_group_id IN (
+				JOIN TypeMarketGroups
+					ON Types.market_group_id = TypeMarketGroups.market_group_id
+				WHERE TypeMarketGroups.parent_group_id IN (
 						1031, 1855, 2395, 54
 					)
-					AND MarketGroups.market_group_id NOT IN (
+					AND TypeMarketGroups.market_group_id NOT IN (
 						1856
 					)
 				ORDER BY Types.type_name ASC
 				;`,
-				[{table: 'Types'}, {table: 'MarketGroups'}]
+				[{table: 'Types'}, {table: 'TypeMarketGroups'}]
 			);
 		} else {
 			return null;

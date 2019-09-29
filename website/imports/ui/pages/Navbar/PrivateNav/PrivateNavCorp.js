@@ -40,20 +40,6 @@ export default class PrivateNavCorp extends React.Component {
 		}
 	}
 
-	renderOreBuybackConfig() {
-		if(this.state.isDirector) {
-			return (
-				<LinkContainer to='/corp/ore_buyback/config'>
-					<MenuItem eventKey={2.1}>
-						<FA fal fa-level-up fa-rotate-90 /> &thinsp; Config
-					</MenuItem>
-				</LinkContainer>
-			)
-		} else {
-			return null;
-		}
-	}
-
 	render() {
 		return (
 			<NavDropdown
@@ -65,7 +51,6 @@ export default class PrivateNavCorp extends React.Component {
 				<LinkContainer to='/corp/ore_buyback'>
 					<MenuItem eventKey={2.1}>Ore Buyback</MenuItem>
 				</LinkContainer>
-				{this.renderOreBuybackConfig.bind(this)()}
 			</NavDropdown>
 		);
 	}

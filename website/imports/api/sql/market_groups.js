@@ -9,21 +9,21 @@ if (Meteor.isServer) {
 	Meteor.publish('marketGroups.oreBuybackOreGroups', () => {
 		if (Roles.userIsInRole(Meteor.userId(), 'director')) {
 			return SqlConn.select(`
-				SELECT MarketGroups.market_group_id,
-					MarketGroups.market_group_name,
-					MarketGroups.parent_group_id,
-					MarketGroups.has_types
-				FROM MarketGroups
-				WHERE MarketGroups.parent_group_id IN (
+				SELECT TypeMarketGroups.market_group_id,
+					TypeMarketGroups.market_group_name,
+					TypeMarketGroups.parent_group_id,
+					TypeMarketGroups.has_types
+				FROM TypeMarketGroups
+				WHERE TypeMarketGroups.parent_group_id IN (
 						1031, 1855, 2395, 54
 					)
-					AND MarketGroups.market_group_id NOT IN (
+					AND TypeMarketGroups.market_group_id NOT IN (
 						1856
 					)
-				ORDER BY MarketGroups.parent_group_id ASC,
-					MarketGroups.market_group_name ASC
+				ORDER BY TypeMarketGroups.parent_group_id ASC,
+					TypeMarketGroups.market_group_name ASC
 				;`,
-				[{table: 'MarketGroups'}]
+				[{table: 'TypeMarketGroups'}]
 			);
 		} else {
 			return null;
@@ -33,18 +33,18 @@ if (Meteor.isServer) {
 	Meteor.publish('marketGroups.oreBuybackMineralGroups', () => {
 		if (Roles.userIsInRole(Meteor.userId(), 'director')) {
 			return SqlConn.select(`
-				SELECT MarketGroups.market_group_id,
-					MarketGroups.market_group_name,
-					MarketGroups.parent_group_id,
-					MarketGroups.has_types
-				FROM MarketGroups
-				WHERE MarketGroups.market_group_id IN (
+				SELECT TypeMarketGroups.market_group_id,
+					TypeMarketGroups.market_group_name,
+					TypeMarketGroups.parent_group_id,
+					TypeMarketGroups.has_types
+				FROM TypeMarketGroups
+				WHERE TypeMarketGroups.market_group_id IN (
 						1857, 1033, 501
 					)
-				ORDER BY MarketGroups.parent_group_id ASC,
-					MarketGroups.market_group_name ASC
+				ORDER BY TypeMarketGroups.parent_group_id ASC,
+					TypeMarketGroups.market_group_name ASC
 				;`,
-				[{table: 'MarketGroups'}]
+				[{table: 'TypeMarketGroups'}]
 			);
 		} else {
 			return null;

@@ -12,10 +12,10 @@ import '../imports/api/scope_groups.js';
 import '../imports/api/Corp/ore_buyback.js';
 
 // Custom Imports - SQL API's
-import '../imports/api/sql/sql_conn.js';
-import '../imports/api/sql/regions.js';
-import '../imports/api/sql/market_groups.js';
-import '../imports/api/sql/types.js';
+//import '../imports/api/sql/sql_conn.js';
+//import '../imports/api/sql/regions.js';
+//import '../imports/api/sql/market_groups.js';
+//import '../imports/api/sql/types.js';
 
 // Custom Imports - Startups
 import '../imports/startup/simple-schema-config.js';

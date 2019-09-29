@@ -6,13 +6,13 @@ import {Roles} from 'meteor/alanning:roles';
 // NPM Imports
 import SimpleSchema from 'simpl-schema';
 
-export const OreBuybackHistory = new Mongo.Collection('ore_buyback_history');
+export const OreBuyback = new Mongo.Collection('ore_buyback');
 export const OreBuybackSettings = new Mongo.Collection('ore_buyback_settings');
 
 if (Meteor.isServer) {
-	Meteor.publish('member_OreBuybackHistory', () => {
+	Meteor.publish('member_OreBuyback', () => {
 		if (Roles.userIsInRole(Meteor.userId(), 'member')) {
-			return OreBuybackHistory.find();
+			return OreBuyback.find();
 		} else {
 			return null;
 		}

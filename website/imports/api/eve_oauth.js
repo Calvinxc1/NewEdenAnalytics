@@ -96,7 +96,7 @@ const getCharInfo = (charId) => {
 	var resp;
 	try {
 		resp = HTTP.get(
-			'https://esi.tech.ccp.is/latest/characters/'
+			'https://esi.evetech.net/latest/characters/'
 			+ charId + '/'
 		);
 	} catch (err) {
