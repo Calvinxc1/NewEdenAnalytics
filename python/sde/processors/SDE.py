@@ -46,7 +46,7 @@ class SdeProcessor:
     
     commit_rows = 10000
     load_path = './{sde_path}/{file_path}'
-    maria_login_path = './../settings/maria_login.json'
+    maria_login_path = './../../settings/maria_login.json'
     sql = {
         'insert': 'INSERT INTO {table} ({cols}) VALUES ({vals}){upsert};',
         'delete': 'DELETE FROM {table};'

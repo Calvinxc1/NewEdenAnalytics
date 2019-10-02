@@ -9,7 +9,7 @@ The New Eden Analytics codebase is a repository for my code on the biggest perso
 * [SDE Parser](https://github.com/Calvinxc1/NewEdenAnalytics/tree/master/python/sde)
 * [Analytics Playground](https://github.com/Calvinxc1/NewEdenAnalytics/tree/master/playground)
 
-It's been a fantastic experience working on this project, and this project has helped me become a professional Data Scientist. I keep working on it as it's a passion project.
+It's been a fantastic experience working on this project, and this project has helped me become a professional Data Scientist. I've been working on this, starting as Excel spreadsheets back in 2003. I keep working on it as a passion project.
 
 #### Contributing
 

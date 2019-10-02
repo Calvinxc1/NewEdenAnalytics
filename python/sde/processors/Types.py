@@ -1,10 +1,10 @@
 from processors.SDE import SdeProcessor
 
 class TypesProcessor(SdeProcessor):
-    """Processor for the invNames file in the EVE SDE
+    """Processor for the typeIDs file in the EVE SDE
     
     Processor controlling the loading of all EVE SDE
-    item names. Draws from SdeProcessor.
+    types. Draws from SdeProcessor.
     
     See SdeProcessor for Parameters & Attributes.
     
@@ -12,7 +12,9 @@ class TypesProcessor(SdeProcessor):
     TODO: Parse traits data
     
     Version History:
-        0.1 (2019-09-29) - First working iteration
+        0.1.1 (2019-09-29) - Renamed parse_types method to parse_type
+            and corrected class docstring.
+        0.1 (2019-09-29) - First working iteration.
     """
     
     data_table = 'Types'
@@ -51,12 +53,12 @@ class TypesProcessor(SdeProcessor):
         
         formatted_data = []
         for type_id, type_data in self._tqdm(raw_data.items()):
-            type_data = self.parse_types(type_data, type_id)
+            type_data = self.parse_type(type_data, type_id)
             formatted_data.append(type_data)
             
         return formatted_data
     
-    def parse_types(self, type_data:dict, type_id:int) -> dict:
+    def parse_type(self, type_data:dict, type_id:int) -> dict:
         """ Parser for type data
         
         Parses a single type record to get it to a
