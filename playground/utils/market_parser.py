@@ -55,7 +55,7 @@ def load_market(region_ids, type_ids, start_date=date(2015,4,1), verbose=False, 
             Market.region_id,
             Market.type_id,
             Market.volume,
-            Market.order_count,
+            Market.orders,
             Market.low_price,
             Market.avg_price,
             Market.high_price
@@ -76,7 +76,7 @@ def load_market(region_ids, type_ids, start_date=date(2015,4,1), verbose=False, 
 
 def clean_market(market_data, verbose=False,
                  time_col='record_date', group_cols=['region_id', 'type_id'],
-                 data_cols=['volume', 'order_count', 'low_price', 'avg_price', 'high_price']
+                 data_cols=['volume', 'orders', 'low_price', 'avg_price', 'high_price']
                 ):
     if verbose: print_timestamp('Cleaning Market Data.')
     

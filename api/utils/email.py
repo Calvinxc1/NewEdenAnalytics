@@ -1,8 +1,8 @@
 import smtplib as smtp
 import ujson as js
 
-def send_email(msg_type, msg_params):
-    with open('../settings/email.json') as file:
+def send_email(msg_type:str, msg_params:dict, email_login_path:str):
+    with open(email_login_path) as file:
         params = js.load(file)
 
     server = smtp.SMTP_SSL(**params['smtp'])
