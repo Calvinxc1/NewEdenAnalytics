@@ -1,18 +1,23 @@
 import pandas as pd
 from datetime import datetime as dt
 
-from Api import Api
-import _CONST as CONST
-from utils.Container import Container
+from .import Api
+from ..utils import Container
 
-CONST.RENAMES = {'timestamp': 'record_time'}
-CONST.TABLE = 'ServerStatus'
-CONST.URL.main = 'status'
-CONST.USE_TIMESTAMP = True
+RENAMES = {'timestamp': 'record_time'}
+TABLE = 'ServerStatus'
+URL = {'main': 'status'}
 
 class ServerStatusApi(Api):
+    def __init__(self, verbose=False):
+        super().__init__(renames=RENAMES, table=TABLE, url=URL, verbose=verbose)
+    
     def _parse_data_item(self, data_item:Container, renames:dict, **kwargs):
-        data_frame = pd.DataFrame([data_item.data])
+        try:
+            data_frame = pd.DataFrame([data_item.data])
+        except Exception as e:
+            self._email('fail', data_item.data)
+            raise
         for key in data_item:
             if key == 'data': continue
             data_frame[key] = data_item[key]

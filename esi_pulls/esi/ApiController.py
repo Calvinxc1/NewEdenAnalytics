@@ -4,11 +4,9 @@ from datetime import datetime as dt
 import pymongo as pm
 import ujson as js
 
-from MarketHistoryApi import MarketHistoryApi
-from ServerStatusApi import ServerStatusApi
-from utils.Container import Container
-from utils.email import send_email
-import _CONST as CONST
+from .processes import MarketHistoryApi, ServerStatusApi, SystemJumpsApi, SystemKillsApi, MarketOrdersApi, MarketPricesApi, CorpIndustryJobsApi
+from .utils import Container, send_email
+from ._constants import constants as CONST
 
 class ApiController:
     def __init__(self, processes, verbose=False):
@@ -95,26 +93,13 @@ class ApiController:
                 ))
                 if sleep_sec > 0: sleep(sleep_sec)
                 expire = api.run_process()
-                mongo[self.mongo_db][self.mongo_expire_coll].update(
+                mongo[self.mongo_db][self.mongo_expire_coll].update_one(
                     {'_id': api.__class__.__name__},
                     {'$set': {'expire': expire}},
                     upsert=True
                 )
                 sleep_sec = (expire - dt.now()).total_seconds() + process.expire_delay
             except Exception as e:
-                self._email('fail', e)
+                trace = traceback.format_exc()
+                self._email('fail', '{name} error: {error}\nTraceback: {trace}'.format(name=api.__class__.__name__, error=e, trace=trace))
                 raise
-
-processes = [
-    Container(
-        api=MarketHistoryApi,
-        expire_delay=600
-    ),
-    Container(
-        api=ServerStatusApi,
-        expire_delay=1
-    )
-]
-
-control = ApiController(processes)
-control.launch_threads(control.processes)

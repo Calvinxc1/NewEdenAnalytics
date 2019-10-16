@@ -1,4 +1,4 @@
-from utils.Container import Container
+from ..utils import Container
 
 COMMIT_ROWS = 10000
 EMAIL_LOGIN_PATH = './../settings/email.json'
@@ -9,11 +9,10 @@ MARIA_LOGIN_PATH = './../settings/maria_login.json'
 MONGO_DB = 'NewEdenAnalytics'
 MONGO_EXPIRE_COLL = 'esi_expires'
 MONGO_LOGIN_PATH = './../settings/mongo_login.json'
-PAGE_MAX_POOL = 4
 PARAMS = {'datasource':'tranquility'}
-RENAMES = {}
-SQL = Container(insert='INSERT INTO {table} ({cols}) VALUES ({vals}){upsert};')
-TABLE = ''
-UPSERT = True
-URL = Container(root='https://esi.evetech.net/latest')
-USE_TIMESTAMP = False
+SQL = dict(
+    insert='INSERT INTO {table} ({cols}) VALUES ({vals}){upsert};',
+    delete='DELETE FROM {table} WHERE {table}.{time_col} != {time};',
+    purge='DELETE FROM {table};',
+)
+URL = dict(root='https://esi.evetech.net/latest')

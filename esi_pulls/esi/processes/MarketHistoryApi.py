@@ -3,26 +3,27 @@ from datetime import datetime as dt, timedelta as td
 import mysql.connector as mdb
 import ujson as js
 
-from Api import Api
-import _CONST as CONST
-from utils.Container import Container
+from .import Api
+from ..utils import Container
 
-CONST.RENAMES = {
+RENAMES = {
     'date': 'record_date',
     'order_count': 'orders',
     'highest': 'high_price',
     'average': 'avg_price',
-    'lowest': 'low_price'
+    'lowest': 'low_price',
 }
-CONST.SQL.region_ids = 'SELECT region_id FROM MapRegions;'
-CONST.TABLE = 'MarketHistory'
-CONST.UPSERT = True
-CONST.URL.types = 'markets/{region_id}/types'
-CONST.URL.history = 'markets/{region_id}/history'
+SQL = {'region_ids': 'SELECT region_id FROM MapRegions;'}
+TABLE = 'MarketHistory'
+URL = {
+    'types': 'markets/{region_id}/types',
+    'history': 'markets/{region_id}/history',
+}
+USE_TIMESTAMP = False
 
 class MarketHistoryApi(Api):
     def __init__(self, lookback_days=7, verbose=False):
-        super().__init__(verbose=verbose)
+        super().__init__(renames=RENAMES, sql=SQL, table=TABLE, url=URL, use_timestamp=USE_TIMESTAMP, verbose=verbose)
         self.lookback = (dt.now().date() - td(days=lookback_days)).isoformat()
     
     def run_process(self):
@@ -41,7 +42,7 @@ class MarketHistoryApi(Api):
     def _get_region_ids(self):
         self._msg('Selecting Region IDs from MariaDB...')
         region_ids = pd.read_sql(
-            self.sql.region_ids,
+            self.sql['region_ids'],
             self.conn.maria
         )['region_id'].values.tolist()
         return region_ids
