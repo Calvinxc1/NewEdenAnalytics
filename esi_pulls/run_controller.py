@@ -9,7 +9,9 @@ processes = [
     Container(api=proc.MarketOrdersApi, expire_delay=3300),
     Container(api=proc.MarketPricesApi, expire_delay=60),
     Container(api=proc.CorpIndustryJobsApi, expire_delay=30),
-    Container(api=proc.CorpWalletJournalApi, expire_delay=30),
+    Container(api=proc.CorpWalletJournalApi, expire_delay=60),
+    Container(api=proc.CorpWalletTransactionsApi, expire_delay=60),
+    Container(api=proc.CorpMarketOrdersApi, expire_delay=30),
 ]
 
 control = ApiController(processes)

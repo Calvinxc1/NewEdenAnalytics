@@ -1,21 +1,20 @@
 import pandas as pd
 from datetime import datetime as dt
 
-from . import Api
+from esi.processes.Api import Api
 
 RENAMES = {
     'timestamp': 'record_time',
-    'id': 'journal_id',
-    'date': 'journal_date',
-    'description': 'journal_desc'
+    'date': 'transaction_date',
 }
-TABLE = 'Corp_WalletJournal'
-URL = {'main': 'corporations/{corp_id}/wallets/{division}/journal'}
+TABLE = 'Corp_WalletTransactions'
+URL = {'main': 'corporations/{corp_id}/wallets/{division}/transactions'}
 AUTH = True
+PARAMS = {}
 
-class CorpWalletJournalApi(Api):
+class CorpWalletTransactionsApi(Api):
     def __init__(self, verbose=False):
-        super().__init__(auth=AUTH, renames=RENAMES, table=TABLE, url=URL, verbose=verbose)
+        super().__init__(auth=AUTH, renames=RENAMES, table=TABLE, url=URL, verbose=verbose, params=PARAMS)
         
     def _get_raw_data(self):
         self._msg('Getting raw data...')
@@ -31,6 +30,6 @@ class CorpWalletJournalApi(Api):
         return raw_data_items
     
     def _clean_data(self, parsed_data:pd.DataFrame):
-        parsed_data['journal_date'] = parsed_data['journal_date'].apply(lambda x: dt.strptime(x, '%Y-%m-%dT%H:%M:%SZ'))
+        parsed_data['transaction_date'] = parsed_data['transaction_date'].apply(lambda x: dt.strptime(x, '%Y-%m-%dT%H:%M:%SZ'))
         parsed_data['corporation_id'] = self.auth_data['corp_id']
         return parsed_data

@@ -117,8 +117,8 @@ class Api:
     
     def _get_raw_data(self):
         self._msg('Getting raw data...')
-        url = self._build_url('main')
         headers = {'Authorization': self.auth_data['Authorization']} if self.auth else {}
+        url = self._build_url('main')
         raw_data_items = self._esi_pull(url, headers=headers)
         return raw_data_items
     
